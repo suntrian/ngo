@@ -1,2 +1,142 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ngo.user.dao.UserDao">
+    <resultMap id="UserMap" type="org.ngo.user.model.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="usercode" jdbcType="VARCHAR" property="usercode"/>
+        <result column="realname" jdbcType="VARCHAR" property="realname"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="wechat" jdbcType="VARCHAR" property="wechat"/>
+        <result column="weibo" jdbcType="VARCHAR" property="weibo"/>
+        <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin"/>
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+    </resultMap>
+    <sql id="User_Column">
+        id, username, usercode, realname, nickname, password, mobile, email, wechat, weibo,
+        last_login, last_login_ip
+    </sql>
+    <select id="selectId" parameterType="java.lang.Integer" resultMap="UserMap">
+        select
+        <include refid="User_Column"/>
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insert" parameterType="org.ngo.user.model.User">
+        INSERT INTO user (id, username, usercode,
+                          realname, nickname, password,
+                          mobile, email, wechat,
+                          weibo, last_login, last_login_ip
+        )
+        VALUES (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{usercode,jdbcType=VARCHAR},
+                                        #{realname,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+                                        #{password,jdbcType=VARCHAR},
+                                        #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+                                        #{wechat,jdbcType=VARCHAR},
+                                        #{weibo,jdbcType=VARCHAR}, #{lastLogin,jdbcType=TIMESTAMP},
+                #{lastLoginIp,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="org.ngo.user.model.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="usercode != null">
+                usercode,
+            </if>
+            <if test="realname != null">
+                realname,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="wechat != null">
+                wechat,
+            </if>
+            <if test="weibo != null">
+                weibo,
+            </if>
+            <if test="lastLogin != null">
+                last_login,
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="usercode != null">
+                #{usercode,jdbcType=VARCHAR},
+            </if>
+            <if test="realname != null">
+                #{realname,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null">
+                #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="weibo != null">
+                #{weibo,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLogin != null">
+                #{lastLogin,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteId" parameterType="java.lang.Integer">
+        DELETE FROM user
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <update id="updateByPrimaryKey" parameterType="org.ngo.user.model.User">
+        UPDATE user
+        SET username      = #{username,jdbcType=VARCHAR},
+            usercode      = #{usercode,jdbcType=VARCHAR},
+            realname      = #{realname,jdbcType=VARCHAR},
+            nickname      = #{nickname,jdbcType=VARCHAR},
+            password      = #{password,jdbcType=VARCHAR},
+            mobile        = #{mobile,jdbcType=VARCHAR},
+            email         = #{email,jdbcType=VARCHAR},
+            wechat        = #{wechat,jdbcType=VARCHAR},
+            weibo         = #{weibo,jdbcType=VARCHAR},
+            last_login    = #{lastLogin,jdbcType=TIMESTAMP},
+            last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,14 +1,15 @@
-package org.ngo.basic;
+package org.ngo.basic.dao;
+
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.ngo.common.ReflectUtil;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.mybatis.spring.support.SqlSessionDaoSupport;
-
-
-public abstract class BasicDaoImpl<T, PK extends Serializable> extends SqlSessionDaoSupport implements IBasicDao<T, PK>{
-    private String namespace;
+public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSessionDaoSupport implements BaseDao<T, PK> {
+    private String namespace = getDefaultNameSpace();
 
     public void setNamespace(String namespace){
         this.namespace = namespace;
@@ -17,10 +18,15 @@ public abstract class BasicDaoImpl<T, PK extends Serializable> extends SqlSessio
         return this.namespace;
     }
 
+    protected String getDefaultNameSpace() {
+        Class<T> clazz = ReflectUtil.getClassGenricType(this.getClass());
+        return clazz.getName() + "Dao";
+    }
+
     @Override
     public int insert(T t) {
         try {
-            return getSqlSession().insert(getNamespace() + ".insertT", t);
+            return getSqlSession().insert(getNamespace() + ".insert", t);
         } catch (Exception e){
             throw new RuntimeException("insert t failed");
         }
@@ -126,11 +132,20 @@ public abstract class BasicDaoImpl<T, PK extends Serializable> extends SqlSessio
     }
 
     @Override
-    public List<T> list(PK[] ids){
+    public Collection<T> list(PK[] ids) {
         try {
             return getSqlSession().selectList(getNamespace() + ".selectIds", ids);
         } catch (Exception e){
             throw new RuntimeException("get by id array failed");
+        }
+    }
+
+    @Override
+    public Collection<T> list(Collection<PK> ids) {
+        try {
+            return getSqlSession().selectList(getNamespace() + ".selectIds", ids);
+        } catch (Exception e) {
+            throw new RuntimeException("get by id collection failed");
         }
     }
 
@@ -170,4 +185,23 @@ public abstract class BasicDaoImpl<T, PK extends Serializable> extends SqlSessio
         }
     }
 
+    @Override
+    public Map queryOneBySql(String sql) {
+        return getSqlSession().selectMap("BasicMapper" + ".queryOneBySql", sql);
+    }
+
+    @Override
+    public List<Map> queryListBySql(String sql) {
+        return getSqlSession().selectList("BasicMapper" + ".queryListBySql", sql);
+    }
+
+    @Override
+    public Integer insertBySql(String sql) {
+        return getSqlSession().insert("BasicMapper" + ".insertBySql", sql);
+    }
+
+    @Override
+    public Integer updateBySql(String sql) {
+        return getSqlSession().update("BasicMapper" + ".updateBySql", sql);
+    }
 }

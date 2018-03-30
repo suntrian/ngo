@@ -68,6 +68,17 @@ CREATE TABLE IF NOT EXISTS `position` (
   `comment`   VARCHAR(256)                                COMMENT '岗位说明'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT '岗位 无须与部门关联，所有公司可共享';
 
+CREATE TABLE IF NOT EXISTS `corporation_staff` (
+  `corporation` INT UNSIGNED COMMENT '企业ID',
+  `user`        INT UNSIGNED COMMENT '人员ID',
+  `department`  INT UNSIGNED COMMENT '人员所属部门',
+  PRIMARY KEY (`corporation`, `user`)
+    COMMENT '联合主键'
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COMMENT '企业人员';
+
 ########################################################################################################################
 ## 项目相关
 ########################################################################################################################
@@ -136,12 +147,17 @@ CREATE TABLE IF NOT EXISTS `document_section` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT '文档节次 章节';
 
 CREATE TABLE IF NOT EXISTS `document_item` (
-  `id` INT UNSIGNED UNIQUE PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '文档条目ID',
-  `name` VARCHAR(32) DEFAULT NULL                             COMMENT '文档条目名称，可为空',
-  `content` TEXT DEFAULT NULL                         COMMENT '文档条目内容',
-  `document` INT NOT NULL                                       COMMENT '所属文档ID',
-  `section` INT DEFAULT NULL                                    COMMENT '文档所属章节，为空时直属文档',
-  `version` VARCHAR(128) DEFAULT NULL                           COMMENT '所属文档的版本，文档版本ID逗号分隔值'
+  `id`       INT UNSIGNED UNIQUE PRIMARY KEY AUTO_INCREMENT NOT NULL
+  COMMENT '文档条目ID',
+  `name`     VARCHAR(32)  DEFAULT NULL
+  COMMENT '文档条目名称，可为空',
+  `data`     TEXT         DEFAULT NULL
+  COMMENT '文档条目内容',
+  `document` INT                                            NOT NULL                                       COMMENT '所属文档ID',
+  `section`  INT          DEFAULT NULL
+  COMMENT '文档所属章节，为空时直属文档',
+  `version`  VARCHAR(128) DEFAULT NULL
+  COMMENT '所属文档的版本，文档版本ID逗号分隔值'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT '文档条目';
 
 ########################################################################################################################
@@ -159,21 +175,34 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `type` INT NOT NULL                                           COMMENT 'bug type'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT '缺陷';
 
+CREATE TABLE IF NOT EXISTS `ticket_type` (
+  `id`           INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE
+  COMMENT 'bug type id',
+  `name`         VARCHAR(32)                             NOT NULL UNIQUE
+  COMMENT 'bug type name',
+  `project_type` INT                                     NULL
+  COMMENT '关联项目类型'
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COMMENT '缺陷类型';
 
 ########################################################################################################################
 ## 任务相关
 ########################################################################################################################
 
 CREATE TABLE IF NOT EXISTS `task` (
-  `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE COMMENT '任务ID',
-  `name` VARCHAR(64)                                            COMMENT '任务名称',
-  `project` INT DEFAULT NULL                                    COMMENT '所属项目ID 可不关联项目',
-  `content` VARCHAR(2048)                                      COMMENT '任务内容',
-  `type` INT                                                    COMMENT '任务类型',
-  `status` INT                                                  COMMENT '任务状态',
-  `plan_start` DATETIME                                         COMMENT '计划开始',
-  `plan_finish` DATETIME                                        COMMENT '计划完成',
-  `actual_start` DATETIME                                       COMMENT '实际开始',
+  `id`            INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE
+  COMMENT '任务ID',
+  `name`          VARCHAR(64) COMMENT '任务名称',
+  `project`       INT DEFAULT NULL
+  COMMENT '所属项目ID 可不关联项目',
+  `data`          VARCHAR(2048) COMMENT '任务内容',
+  `type`          INT COMMENT '任务类型',
+  `status`        INT COMMENT '任务状态',
+  `plan_start`    DATETIME COMMENT '计划开始',
+  `plan_finish`   DATETIME COMMENT '计划完成',
+  `actual_start`  DATETIME COMMENT '实际开始',
   `actual_finish` DATETIME                                      COMMENT '实际完成'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT '任务';
 
@@ -197,5 +226,9 @@ CREATE TABLE IF NOT EXISTS `task_handler` (
 CREATE TABLE IF NOT EXISTS `task_handler_type` (
   `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE COMMENT '任务处置人类型ID',
   `name` VARCHAR(32) NOT NULL                                  COMMENT '任务处置人类型名称'
-) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT '任务处置人类型';;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COMMENT '任务处置人类型';
+
 

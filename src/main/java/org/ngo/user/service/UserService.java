@@ -1,11 +1,16 @@
 package org.ngo.user.service;
 
-import org.ngo.basic.IBasicService;
-import org.ngo.user.bean.User;
+import org.ngo.basic.service.BaseService;
+import org.ngo.user.model.User;
+import org.ngo.user.model.UserProfile;
 
-public interface UserService extends IBasicService<User, Long> {
+public interface UserService extends BaseService<User, Integer> {
 
-    public String userLogin(String uniqueName, String password);
-    public String userLogout(String userId);
+    String userLogin(String uniqueName, String password);
 
+    String userLogout(Integer userId);
+
+    UserProfile getProfile(Integer id);
+
+    Integer setProfile(UserProfile profile);
 }
