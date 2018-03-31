@@ -125,7 +125,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     @Override
     public T get(PK id) {
         try {
-            return getSqlSession().selectOne(getNamespace() + ".selectId", id);
+            return getSqlSession().selectOne(getNamespace() + ".get", id);
         } catch (Exception e){
             throw new RuntimeException("get by id failed");
         }
@@ -152,7 +152,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     @Override
     public List<T> list() {
         try {
-            return getSqlSession().selectList(getNamespace() + ".get");
+            return getSqlSession().selectList(getNamespace() + ".list");
         }catch (Exception e){
             throw new RuntimeException("get all failed");
         }

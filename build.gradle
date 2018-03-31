@@ -17,6 +17,8 @@ ext {
     spring_version = '5.0.3.RELEASE'
     mybatis_version = '3.4.5'
     mybatis_spring_version = '1.3.1'
+    mysql_connector_java_version = '6.0.6'
+    log4j2_version= '2.11.0'
 }
 
 dependencies {
@@ -26,6 +28,7 @@ dependencies {
 
     providedCompile group:'javax.servlet', name:'javax.servlet-api', version:'3.1.0'
     compile(
+            //spring context
             'org.springframework:spring-core:' + spring_version,
             'org.springframework:spring-web:' + spring_version,
             'org.springframework:spring-oxm:' + spring_version,
@@ -36,8 +39,9 @@ dependencies {
             'org.springframework.security:spring-security-web:5.0.1.RELEASE',
             'org.mybatis:mybatis:' + mybatis_version,
             'org.mybatis:mybatis-spring:' + mybatis_spring_version,
-            'org.slf4j:slf4j-log4j12:1.8.0-alpha2',
+
             'com.google.code.gson:gson:2.8.2',
+            'mysql:mysql-connector-java:' + mysql_connector_java_version,
             'com.alibaba:druid:1.1.9',
             'commons-dbcp:commons-dbcp:1.4',
             // depended by MappingJackson2HttpMessageConverter
@@ -47,5 +51,11 @@ dependencies {
             //depended by CommonsMultipartResolver
             'commons-fileupload:commons-fileupload:1.3.2',
 
+            //log4j2 configuration
+            'org.slf4j:slf4j-api:1.7.25',
+            'org.apache.logging.log4j:log4j-slf4j-impl:' + log4j2_version,
+            'org.apache.logging.log4j:log4j-api:' + log4j2_version,
+            'org.apache.logging.log4j:log4j-core:' + log4j2_version,
+            'org.apache.logging.log4j:log4j-web:' + log4j2_version,
     )
 }

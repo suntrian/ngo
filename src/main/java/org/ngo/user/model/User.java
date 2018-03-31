@@ -14,9 +14,36 @@ public class User {
     private String mobile;
     private String wechat;
     private String weibo;
-    private Date last_login;
-    private String last_log_ip;
+    private Date lastLoginDate;
+    private String lastLoginIp;
     private UserProfile userProfile;
+
+    public User() {
+    }
+
+    public User(Integer id) {
+        this.id = id;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, String nickname, String realname, String usercode, String email,
+                String mobile, String wechat, String weibo, Date lastLoginDate, String lastLoginIp) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.realname = realname;
+        this.usercode = usercode;
+        this.email = email;
+        this.mobile = mobile;
+        this.wechat = wechat;
+        this.weibo = weibo;
+        this.lastLoginDate = lastLoginDate;
+        this.lastLoginIp = lastLoginIp;
+    }
 
     public Integer getId() {
         return id;
@@ -74,12 +101,12 @@ public class User {
         this.weibo = weibo;
     }
 
-    public Date getLast_login() {
-        return last_login;
+    public Date getLastLoginDate() {
+        return lastLoginDate;
     }
 
-    public void setLast_login(Date last_login) {
-        this.last_login = last_login;
+    public void setLastLoginDate(Date lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
     }
 
     public String getEmail() {
@@ -106,20 +133,12 @@ public class User {
         this.wechat = wechat;
     }
 
-    public Date getLast_log_date() {
-        return last_login;
+    public String getLastLoginIp() {
+        return lastLoginIp;
     }
 
-    public void setLast_log_date(Date last_log_date) {
-        this.last_login = last_log_date;
-    }
-
-    public String getLast_log_ip() {
-        return last_log_ip;
-    }
-
-    public void setLast_log_ip(String last_log_ip) {
-        this.last_log_ip = last_log_ip;
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
     }
 
     public UserProfile getUserProfile() {
@@ -143,8 +162,8 @@ public class User {
                 ", mobile='" + mobile + '\'' +
                 ", wechat='" + wechat + '\'' +
                 ", weibo='" + weibo + '\'' +
-                ", last_login=" + last_login +
-                ", last_log_ip='" + last_log_ip + '\'' +
+                ", lastLoginDate=" + lastLoginDate +
+                ", lastLoginIp='" + lastLoginIp + '\'' +
                 ", userProfile=" + userProfile +
                 '}';
     }

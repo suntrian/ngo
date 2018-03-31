@@ -5,6 +5,7 @@ import org.ngo.basic.model.ResultVO;
 import org.ngo.user.model.User;
 import org.ngo.user.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,13 @@ public class UserController extends BasicController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(String uniquename, String passwd) {
         userService.userLogin(uniquename, passwd);
+        return "success";
+    }
+
+    @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
+    public String getUser(@PathVariable Integer userid) {
+        User user = userService.get(userid);
+        assert (user.getUsername().equals("abc"));
         return "success";
     }
 

@@ -1,8 +1,8 @@
 package org.ngo.basic.service;
 
 import org.ngo.basic.dao.BaseDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 public abstract class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
 
-    @Resource
+    @Autowired
     private BaseDao<T, PK> baseDao;
 
     @Override
