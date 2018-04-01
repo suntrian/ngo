@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 日志实现方式 打印查询语句 -->
+        <!--<setting name="logImpl" value="SLF4J" />-->
+        <setting name="logImpl" value="LOG4J2"/>
+        <!--当检测出未知列（或未知属性）时处理方式，
+            可选值：
+                NONE : 不做任何处理 (默认值)
+                WARNING : 警告日志形式的详细信息
+                FAILING : 映射失败，抛出异常和详细信息
+         -->
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+    </settings>
+
+</configuration>

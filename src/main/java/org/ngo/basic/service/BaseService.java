@@ -20,8 +20,6 @@ public interface BaseService<T, PK extends Serializable> {
 
     int delete(List<T> ts);
 
-    int delete(Map<String, Object> map);
-
     int update(T t);
 
     int update(Map<String, Object> map);

@@ -39,11 +39,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
 
     @Override
     public UserProfile getProfile(Integer id) {
-        return userProfileDao.get(id);
+        return userProfileDao.getById(id);
     }
 
     @Override
     public Integer setProfile(UserProfile profile) {
-        return userProfileDao.update(profile);
+        return userProfileDao.updateByBean(profile);
     }
 }

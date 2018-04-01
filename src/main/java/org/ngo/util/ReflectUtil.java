@@ -1,11 +1,11 @@
-package org.ngo.common;
+package org.ngo.util;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public class ReflectUtil {
     /**
-     * 获得参数化类型的泛型类型，取第一个参数的泛型类型，（默认去的第一个）
+     * 获得参数化类型的泛型类型，取第一个参数的泛型类型，（默认取第一个）
      *
      * @param clazz 参数化类型
      * @return 泛型类型

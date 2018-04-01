@@ -1,7 +1,7 @@
 package org.ngo.basic.dao;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-import org.ngo.common.ReflectUtil;
+import org.ngo.util.ReflectUtil;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -20,11 +20,11 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
 
     protected String getDefaultNameSpace() {
         Class<T> clazz = ReflectUtil.getClassGenricType(this.getClass());
-        return clazz.getName() + "Dao";
+        return clazz.getName();// + "Dao";
     }
 
     @Override
-    public int insert(T t) {
+    public Integer insertByBean(T t) {
         try {
             return getSqlSession().insert(getNamespace() + ".insert", t);
         } catch (Exception e){
@@ -33,7 +33,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int insert(Map<String, Object> map){
+    public Integer insertByMap(Map<String, Object> map) {
         try {
             return getSqlSession().insert(getNamespace() + ".insertMap", map);
         } catch (Exception e){
@@ -42,7 +42,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int insert(List<T> ts){
+    public Integer insertByBeanList(List<T> ts) {
         try {
             return getSqlSession().insert(getNamespace() + ".insertList", ts);
         } catch (Exception e){
@@ -51,34 +51,34 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int delete(T t) {
+    public Integer deleteByBean(T t) {
         try {
-            return getSqlSession().delete(getNamespace() + ".deleteT",t);
+            return getSqlSession().delete(getNamespace() + ".deleteByBean", t);
         } catch (Exception e){
             throw new RuntimeException("delete t failed");
         }
     }
 
     @Override
-    public int delete(PK id){
+    public Integer deleteById(PK id) {
         try {
-            return getSqlSession().delete(getNamespace() + ".deleteId", id);
+            return getSqlSession().delete(getNamespace() + ".deleteById", id);
         } catch (Exception e){
             throw new RuntimeException("delete by id failed");
         }
     }
 
     @Override
-    public int delete(PK[] ids){
+    public Integer deleteByIdArray(PK[] ids) {
         try {
-            return getSqlSession().delete(getNamespace() + ".deleteIds", ids);
+            return getSqlSession().delete(getNamespace() + ".deleteByIdArray", ids);
         } catch (Exception e){
             throw new RuntimeException("delete by id array failed");
         }
     }
 
     @Override
-    public int delete(List<T> ts){
+    public Integer deleteByBeanList(Collection<T> ts) {
         try {
             return getSqlSession().delete(getNamespace() + ".deleteList", ts);
         } catch (Exception e){
@@ -87,16 +87,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int delete(Map<String, Object> map){
-        try {
-            return getSqlSession().delete(getNamespace() + ".deleteMap", map);
-        } catch (Exception e ){
-            throw new RuntimeException("delete by map failed");
-        }
-    }
-
-    @Override
-    public int update(T t) {
+    public Integer updateByBean(T t) {
         try {
             return getSqlSession().update(getNamespace() + ".updateT",t);
         } catch (Exception e){
@@ -105,7 +96,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int update(Map<String, Object> map){
+    public Integer updateByMap(Map<String, Object> map) {
         try {
             return getSqlSession().update(getNamespace() + ".updateMap", map);
         } catch (Exception e){
@@ -114,7 +105,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int update(List<T> ts){
+    public Integer updateByBeanList(Collection<T> ts) {
         try {
             return getSqlSession().update(getNamespace() + ".updateTs", ts);
         } catch (Exception e){
@@ -123,7 +114,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public T get(PK id) {
+    public T getById(PK id) {
         try {
             return getSqlSession().selectOne(getNamespace() + ".get", id);
         } catch (Exception e){
@@ -132,7 +123,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public Collection<T> list(PK[] ids) {
+    public Collection<T> listByIdArray(PK[] ids) {
         try {
             return getSqlSession().selectList(getNamespace() + ".selectIds", ids);
         } catch (Exception e){
@@ -141,7 +132,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public Collection<T> list(Collection<PK> ids) {
+    public Collection<T> listByIdList(Collection<PK> ids) {
         try {
             return getSqlSession().selectList(getNamespace() + ".selectIds", ids);
         } catch (Exception e) {
@@ -150,7 +141,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public List<T> list() {
+    public Collection<T> listAll() {
         try {
             return getSqlSession().selectList(getNamespace() + ".list");
         }catch (Exception e){
@@ -159,7 +150,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public List<T> list(Map<String,Object> map){
+    public List<T> listByCondition(Map<String, Object> map) {
         try {
             return getSqlSession().selectList(getNamespace() + ".selectMap", map);
         } catch (Exception e){
@@ -168,7 +159,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int count() {
+    public Integer countAll() {
         try {
             return getSqlSession().selectOne(getNamespace() + ".count");
         } catch (Exception e){
@@ -177,7 +168,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
-    public int count(Map<String, Object> map){
+    public Integer countByCondition(Map<String, Object> map) {
         try {
             return getSqlSession().selectOne(getNamespace() + ".count", map);
         } catch (Exception e){
@@ -187,21 +178,26 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
 
     @Override
     public Map queryOneBySql(String sql) {
-        return getSqlSession().selectMap("BasicMapper" + ".queryOneBySql", sql);
+        return getSqlSession().selectOne("org.ngo.basic.dao.BaseDao" + ".queryOneBySql", sql);
     }
 
     @Override
     public List<Map> queryListBySql(String sql) {
-        return getSqlSession().selectList("BasicMapper" + ".queryListBySql", sql);
+        return getSqlSession().selectList("org.ngo.basic.dao.BaseDao" + ".queryListBySql", sql);
     }
 
     @Override
     public Integer insertBySql(String sql) {
-        return getSqlSession().insert("BasicMapper" + ".insertBySql", sql);
+        return getSqlSession().insert("org.ngo.basic.dao.BaseDao" + ".insertBySql", sql);
     }
 
     @Override
     public Integer updateBySql(String sql) {
-        return getSqlSession().update("BasicMapper" + ".updateBySql", sql);
+        return getSqlSession().update("org.ngo.basic.dao.BaseDao" + ".updateBySql", sql);
+    }
+
+    @Override
+    public Integer deleteBySql(String sql) {
+        return getSqlSession().delete(this.getClass().getSuperclass().getName() + ".deleteBySql", sql);
     }
 }

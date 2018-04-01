@@ -52,7 +52,8 @@ http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="mapperLocations" value="classpath:org/ngo/user/mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath*:org/ngo/*/mapper/*.xml"/>
+        <!--<property name="configLocation" value="classpath:mybatis-config.xml" />-->
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="org.ngo.*.dao"/>
@@ -65,35 +66,5 @@ http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <!--   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-           <property name="dataSource" ref="dataSource"/>
-       </bean>
-       <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
-           <tx:attributes>
-               <tx:method name="add*" propagation="REQUIRED"/>
-               <tx:method name="append*" propagation="REQUIRED"/>
-               <tx:method name="insert*" propagation="REQUIRED"/>
-               <tx:method name="save*" propagation="REQUIRED"/>
-               <tx:method name="update*" propagation="REQUIRED"/>
-               <tx:method name="modify*" propagation="REQUIRED"/>
-               <tx:method name="edit*" propagation="REQUIRED"/>
-               <tx:method name="delete*" propagation="REQUIRED"/>
-               <tx:method name="remove*" propagation="REQUIRED"/>
-               <tx:method name="repair" propagation="REQUIRED"/>
-               <tx:method name="delAndRepair" propagation="REQUIRED"/>
-
-               <tx:method name="get*" propagation="SUPPORTS"/>
-               <tx:method name="find*" propagation="SUPPORTS"/>
-               <tx:method name="load*" propagation="SUPPORTS"/>
-               <tx:method name="search*" propagation="SUPPORTS"/>
-               <tx:method name="datagrid*" propagation="SUPPORTS"/>
-
-               <tx:method name="*" propagation="SUPPORTS"/>
-           </tx:attributes>
-       </tx:advice>
-       <aop:config>
-           <aop:pointcut id="transactionPointcut" expression="execution(* org.ngo.*.service..*Impl.*(..))"/>
-           <aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice"/>
-       </aop:config>-->
 
 </beans>

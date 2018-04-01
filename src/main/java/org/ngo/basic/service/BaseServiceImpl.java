@@ -16,91 +16,86 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 
     @Override
     public int insert(T t) {
-        return baseDao.insert(t);
+        return baseDao.insertByBean(t);
     }
 
     @Override
     public int insert(Map<String, Object> map) {
-        return baseDao.insert(map);
+        return baseDao.insertByMap(map);
     }
 
     @Override
     public int insert(List<T> ts) {
-        return baseDao.insert(ts);
+        return baseDao.insertByBeanList(ts);
     }
 
     @Override
     public int dalete(T t) {
-        return baseDao.delete(t);
+        return baseDao.deleteByBean(t);
     }
 
     @Override
     public int delete(PK id) {
-        return baseDao.delete(id);
+        return baseDao.deleteById(id);
     }
 
     @Override
     public int delete(PK[] ids) {
-        return baseDao.delete(ids);
+        return baseDao.deleteByIdArray(ids);
     }
 
     @Override
     public int delete(List<T> ts) {
-        return baseDao.delete(ts);
-    }
-
-    @Override
-    public int delete(Map<String, Object> map) {
-        return baseDao.delete(map);
+        return baseDao.deleteByBeanList(ts);
     }
 
     @Override
     public int update(T t) {
-        return baseDao.update(t);
+        return baseDao.updateByBean(t);
     }
 
     @Override
     public int update(Map<String, Object> map) {
-        return baseDao.update(map);
+        return baseDao.updateByMap(map);
     }
 
     @Override
     public int update(List<T> ts) {
-        return baseDao.update(ts);
+        return baseDao.updateByBeanList(ts);
     }
 
     @Override
     public T get(PK id) {
-        return (T) baseDao.get(id);
+        return (T) baseDao.getById(id);
     }
 
     @Override
     public Collection<T> list(PK[] ids) {
-        return baseDao.list(ids);
+        return baseDao.listByIdArray(ids);
     }
 
     @Override
     public Collection<T> list(Collection<PK> ids) {
-        return baseDao.list(ids);
+        return baseDao.listByIdList(ids);
     }
 
     @Override
     public Collection<T> list() {
-        return baseDao.list();
+        return baseDao.listAll();
     }
 
     @Override
     public Collection<T> list(Map<String, Object> map) {
-        return baseDao.list(map);
+        return baseDao.listByCondition(map);
     }
 
     @Override
     public int count() {
-        return baseDao.count();
+        return baseDao.countAll();
     }
 
     @Override
     public int count(Map<String, Object> map) {
-        return baseDao.count(map);
+        return baseDao.countByCondition(map);
     }
 }

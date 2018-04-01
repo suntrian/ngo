@@ -40,6 +40,7 @@ dependencies {
             'org.mybatis:mybatis:' + mybatis_version,
             'org.mybatis:mybatis-spring:' + mybatis_spring_version,
 
+            'com.google.guava:guava:24.1-jre',
             'com.google.code.gson:gson:2.8.2',
             'mysql:mysql-connector-java:' + mysql_connector_java_version,
             'com.alibaba:druid:1.1.9',
@@ -57,5 +58,13 @@ dependencies {
             'org.apache.logging.log4j:log4j-api:' + log4j2_version,
             'org.apache.logging.log4j:log4j-core:' + log4j2_version,
             'org.apache.logging.log4j:log4j-web:' + log4j2_version,
+
+            //depended by utils
+            //'com.0opslab:0opslab-utils:1.0.8',
+            'net.sourceforge.jchardet:jchardet:1.0',
+            'com.belerweb:pinyin4j:2.5.0',
+            'com.sun.mail:javax.mail:1.6.1',
+            'commons-net:commons-net:3.6',
+
     )
 }

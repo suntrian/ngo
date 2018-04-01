@@ -14,7 +14,7 @@ public interface BaseDao<T, PK extends Serializable> {
      * @param t
      * @return rows count affected
      */
-    int insert(T t);
+    Integer insertByBean(T t);
 
     /**
      * 添加 （匹配有值的字段）
@@ -22,7 +22,7 @@ public interface BaseDao<T, PK extends Serializable> {
      * @param map
      * @return rows num affected
      **/
-    int insert(Map<String, Object> map);
+    Integer insertByMap(Map<String, Object> map);
 
     /**
      * 批量插入
@@ -30,49 +30,47 @@ public interface BaseDao<T, PK extends Serializable> {
      * @param ts
      * @return
      */
-    int insert(List<T> ts);
+    Integer insertByBeanList(List<T> ts);
 
     /**
      * 查询（根据主键ID查询）
      **/
-    T get(@Param("id") PK id);
+    T getById(@Param("id") PK id);
 
-    Collection<T> list(PK[] ids);
+    Collection<T> listByIdArray(PK[] ids);
 
-    Collection<T> list(Collection<PK> ids);
+    Collection<T> listByIdList(Collection<PK> ids);
 
     /**
      * 查询全部
      */
-    Collection<T> list();
+    Collection<T> listAll();
 
     /**
      * 查询全部，条件查询，分页查询
      */
-    Collection<T> list(Map<String, Object> map);
+    Collection<T> listByCondition(Map<String, Object> map);
 
-    int delete(T t);
+    Integer deleteByBean(T t);
 
-    int delete(@Param("id") PK id);
+    Integer deleteById(@Param("id") PK id);
 
-    int delete(PK[] ids);
+    Integer deleteByIdArray(PK[] ids);
 
-    int delete(List<T> ts);
+    Integer deleteByBeanList(Collection<T> ts);
 
-    int delete(Map<String, Object> map);
+    Integer updateByBean(T t);
 
-    int update(T t);
+    Integer updateByMap(Map<String, Object> map);
 
-    int update(Map<String, Object> map);
-
-    int update(List<T> ts);
+    Integer updateByBeanList(Collection<T> ts);
 
     /**
      * 所有结果数
      *
      * @return
      */
-    int count();
+    Integer countAll();
 
     /**
      * 条件查询数目
@@ -80,7 +78,7 @@ public interface BaseDao<T, PK extends Serializable> {
      * @param map
      * @return
      */
-    int count(Map<String, Object> map);
+    Integer countByCondition(Map<String, Object> map);
 
     Map queryOneBySql(String sql);
 
@@ -89,4 +87,6 @@ public interface BaseDao<T, PK extends Serializable> {
     Integer insertBySql(String sql);
 
     Integer updateBySql(String sql);
+
+    Integer deleteBySql(String sql);
 }

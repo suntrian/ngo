@@ -12,42 +12,28 @@
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="wechat" jdbcType="VARCHAR" property="wechat"/>
         <result column="weibo" jdbcType="VARCHAR" property="weibo"/>
-        <result column="lastLoginDate" jdbcType="TIMESTAMP" property="lastLoginDate"/>
+        <result column="last_login_date" jdbcType="TIMESTAMP" property="lastLoginDate"/>
         <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
     </resultMap>
     <sql id="User_Column">
-        id, username, usercode, realname, nickname, password, mobile, email, wechat, weibo,
-        lastLoginDate, last_login_ip
+        `id`, `username`, `usercode`, `realname`, `nickname`, `password`, `mobile`, `email`, `wechat`, `weibo`,
+        `last_login_date`, `last_login_ip`
     </sql>
 
-    <select id="list" resultMap="UserMap">
-        SELECT *
-        FROM user;
-    </select>
-
-    <select id="get" parameterType="java.lang.Integer" resultMap="UserMap">
-        select
+    <insert id="insertByBean" useGeneratedKeys="true" keyProperty="id" parameterType="org.ngo.user.model.User">
+        INSERT INTO user (
         <include refid="User_Column"/>
-        from user
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-
-    <insert id="insertAll" parameterType="org.ngo.user.model.User">
-        INSERT INTO user (id, username, usercode,
-                          realname, nickname, password,
-                          mobile, email, wechat,
-        weibo, lastLoginDate, last_login_ip
-        )
-        VALUES (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{usercode,jdbcType=VARCHAR},
-                                        #{realname,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
-                                        #{password,jdbcType=VARCHAR},
-                                        #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-                                        #{wechat,jdbcType=VARCHAR},
+        ) VALUES (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{usercode,jdbcType=VARCHAR},
+        #{realname,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+        #{wechat,jdbcType=VARCHAR},
         #{weibo,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP},
-                #{lastLoginIp,jdbcType=VARCHAR}
+        #{lastLoginIp,jdbcType=VARCHAR}
         )
     </insert>
-    <insert id="insert" parameterType="org.ngo.user.model.User">
+
+    <insert id="insertByMap" parameterType="map">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -81,7 +67,7 @@
                 weibo,
             </if>
             <if test="lastLoginDate != null">
-                lastLoginDate,
+                last_login_date,
             </if>
             <if test="lastLoginIp != null">
                 last_login_ip,
@@ -126,11 +112,47 @@
             </if>
         </trim>
     </insert>
-    <delete id="deleteId" parameterType="java.lang.Integer">
+
+    <insert id="insertByBeanList" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (
+        <include refid="User_Column"/>
+        ) VALUES
+        <foreach item="item" collection="list" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.username,jdbcType=VARCHAR}, #{item.usercode,jdbcType=VARCHAR},
+            #{item.realname,jdbcType=VARCHAR}, #{item.nickname,jdbcType=VARCHAR},
+            #{item.password,jdbcType=VARCHAR},
+            #{item.mobile,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR},
+            #{item.wechat,jdbcType=VARCHAR},
+            #{item.weibo,jdbcType=VARCHAR}, #{item.lastLoginDate,jdbcType=TIMESTAMP},
+            #{item.lastLoginIp,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
         DELETE FROM user
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
-    <update id="updateByPrimaryKey" parameterType="org.ngo.user.model.User">
+
+    <delete id="deleteByBean" parameterType="org.ngo.user.model.User">
+        DELETE FROM user
+        WHERE id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteByIdArray">
+        DELETE FROM user WHERE id in
+        <foreach collection="array" item="id" open="(" close=")" separator="," index="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByBeanList">
+        DELETE FROM user WHERE id IN
+        <foreach collection="list" item="user" open="(" close=")" separator=",">
+            #{user.id}
+        </foreach>
+    </delete>
+
+    <update id="updateByBean" parameterType="org.ngo.user.model.User">
         UPDATE user
         SET username      = #{username,jdbcType=VARCHAR},
             usercode      = #{usercode,jdbcType=VARCHAR},
@@ -141,8 +163,36 @@
             email         = #{email,jdbcType=VARCHAR},
             wechat        = #{wechat,jdbcType=VARCHAR},
             weibo         = #{weibo,jdbcType=VARCHAR},
-        lastLoginDate = #{lastLoginDate,jdbcType=TIMESTAMP},
+        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
             last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
+
+    <update id="updateByCondition" parameterType="Map">
+        UPDATE user
+        SET username = #{username,jdbcType=VARCHAR},
+        usercode = #{usercode,jdbcType=VARCHAR},
+        realname = #{realname,jdbcType=VARCHAR},
+        nickname = #{nickname,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        wechat = #{wechat,jdbcType=VARCHAR},
+        weibo = #{weibo,jdbcType=VARCHAR},
+        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="listAll" resultMap="UserMap">
+        SELECT *
+        FROM user;
+    </select>
+
+    <select id="getById" parameterType="java.lang.Integer" resultMap="UserMap">
+        select
+        <include refid="User_Column"/>
+        from user
+        where `id` = #{id,jdbcType=INTEGER}
+    </select>
 </mapper>
