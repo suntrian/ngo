@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface BaseService<T, PK extends Serializable> {
+
+
     int insert(T t);
 
     int insert(Map<String, Object> map);
@@ -17,6 +19,8 @@ public interface BaseService<T, PK extends Serializable> {
     int delete(PK id);
 
     int delete(PK[] ids);
+
+    int delete(Collection<PK> ids);
 
     int delete(List<T> ts);
 
@@ -33,8 +37,6 @@ public interface BaseService<T, PK extends Serializable> {
     Collection<T> list(Collection<PK> ids);
 
     Collection<T> list();
-
-    Collection<T> list(Map<String, Object> map);
 
     int count();
 

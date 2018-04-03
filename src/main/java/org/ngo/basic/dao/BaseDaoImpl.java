@@ -26,7 +26,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     @Override
     public Integer insertByBean(T t) {
         try {
-            return getSqlSession().insert(getNamespace() + ".insert", t);
+            return getSqlSession().insert(getNamespace() + ".insertByBean", t);
         } catch (Exception e){
             throw new RuntimeException("insert t failed");
         }
@@ -35,7 +35,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     @Override
     public Integer insertByMap(Map<String, Object> map) {
         try {
-            return getSqlSession().insert(getNamespace() + ".insertMap", map);
+            return getSqlSession().insert(getNamespace() + ".insertByMap", map);
         } catch (Exception e){
             throw new RuntimeException("insert by map failed");
         }
@@ -44,7 +44,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     @Override
     public Integer insertByBeanList(List<T> ts) {
         try {
-            return getSqlSession().insert(getNamespace() + ".insertList", ts);
+            return getSqlSession().insert(getNamespace() + ".insertByBeanList", ts);
         } catch (Exception e){
             throw new RuntimeException("insert batch failed");
         }
@@ -78,9 +78,14 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     }
 
     @Override
+    public Integer deleteByIdList(Collection<PK> ids){
+        return deleteByIdArray((PK[]) ids.toArray());
+    }
+
+    @Override
     public Integer deleteByBeanList(Collection<T> ts) {
         try {
-            return getSqlSession().delete(getNamespace() + ".deleteList", ts);
+            return getSqlSession().delete(getNamespace() + ".deleteByBeanList", ts);
         } catch (Exception e){
             throw new RuntimeException("delete by models failed");
         }
@@ -89,7 +94,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     @Override
     public Integer updateByBean(T t) {
         try {
-            return getSqlSession().update(getNamespace() + ".updateT",t);
+            return getSqlSession().update(getNamespace() + ".updateByBean",t);
         } catch (Exception e){
             throw new RuntimeException("update t failed");
         }
@@ -98,7 +103,7 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     @Override
     public Integer updateByMap(Map<String, Object> map) {
         try {
-            return getSqlSession().update(getNamespace() + ".updateMap", map);
+            return getSqlSession().update(getNamespace() + ".updateByMap", map);
         } catch (Exception e){
             throw new RuntimeException("update map failed");
         }
@@ -110,51 +115,6 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
             return getSqlSession().update(getNamespace() + ".updateTs", ts);
         } catch (Exception e){
             throw new RuntimeException("update by list failed");
-        }
-    }
-
-    @Override
-    public T getById(PK id) {
-        try {
-            return getSqlSession().selectOne(getNamespace() + ".get", id);
-        } catch (Exception e){
-            throw new RuntimeException("get by id failed");
-        }
-    }
-
-    @Override
-    public Collection<T> listByIdArray(PK[] ids) {
-        try {
-            return getSqlSession().selectList(getNamespace() + ".selectIds", ids);
-        } catch (Exception e){
-            throw new RuntimeException("get by id array failed");
-        }
-    }
-
-    @Override
-    public Collection<T> listByIdList(Collection<PK> ids) {
-        try {
-            return getSqlSession().selectList(getNamespace() + ".selectIds", ids);
-        } catch (Exception e) {
-            throw new RuntimeException("get by id collection failed");
-        }
-    }
-
-    @Override
-    public Collection<T> listAll() {
-        try {
-            return getSqlSession().selectList(getNamespace() + ".list");
-        }catch (Exception e){
-            throw new RuntimeException("get all failed");
-        }
-    }
-
-    @Override
-    public List<T> listByCondition(Map<String, Object> map) {
-        try {
-            return getSqlSession().selectList(getNamespace() + ".selectMap", map);
-        } catch (Exception e){
-            throw new RuntimeException("get by map failed");
         }
     }
 
@@ -200,4 +160,63 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
     public Integer deleteBySql(String sql) {
         return getSqlSession().delete(this.getClass().getSuperclass().getName() + ".deleteBySql", sql);
     }
+
+
+    @Override
+    public T getById(PK id) {
+        try {
+            return getSqlSession().selectOne(getNamespace() + ".get", id);
+        } catch (Exception e){
+            throw new RuntimeException("get by id failed");
+        }
+    }
+
+    @Override
+    public Collection<T> listByIdArray(PK[] ids) {
+        try {
+            return getSqlSession().selectList(getNamespace() + ".selectByIdArray", ids);
+        } catch (Exception e){
+            throw new RuntimeException("get by id array failed");
+        }
+    }
+
+    @Override
+    public Collection<T> listByIdList(Collection<PK> ids) {
+        try {
+            return getSqlSession().selectList(getNamespace() + ".selectByIdList", ids);
+        } catch (Exception e) {
+            throw new RuntimeException("get by id collection failed");
+        }
+    }
+
+    @Override
+    public Collection<T> listAll() {
+        try {
+            return getSqlSession().selectList(getNamespace() + ".selectAll");
+        }catch (Exception e){
+            throw new RuntimeException("get all failed");
+        }
+    }
+
+    @Override
+    public Map<PK, T> mapByIdList(Collection<PK> ids){
+        try {
+            return getSqlSession().selectMap(getNamespace() + "selectMapByIdList", "id");
+        } catch (Exception e) {
+            throw new RuntimeException("select map failed");
+        }
+    }
+
+
+    @Override
+    public void clearCache() {
+        getSqlSession().clearCache();
+    }
+
+    @Override
+    public void closeSession(){
+        getSqlSession().close();
+    }
+
+
 }

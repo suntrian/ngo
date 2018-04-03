@@ -6,7 +6,7 @@ import org.ngo.user.model.UserProfile;
 
 public interface UserService extends BaseService<User, Integer> {
 
-    String userLogin(String uniqueName, String password);
+    Boolean userLogin(String uniqueName, String password);
 
     String userLogout(Integer userId);
 

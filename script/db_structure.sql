@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS `user_profile` (
 CREATE TABLE IF NOT EXISTS `corporation` (
   `id` INT  UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE COMMENT 'id',
   `name`  VARCHAR(32) UNIQUE NOT NULL                       COMMENT 'corporation name',
-  `domain`  VARCHAR(8)                                      COMMENT 'corporation domain',
-  `type`    VARCHAR(8)                                      COMMENT 'corp type',
+  `domain`  INT(8)                                      COMMENT 'corporation 领域',
+  `type`    INT(8)                                      COMMENT 'corp 类型',
   `address` VARCHAR(64)                                     COMMENT 'address',
-  `legal_representative` VARCHAR(8)                         COMMENT '',
+  `accountable_person` VARCHAR(8)                           COMMENT '',
   `code`    VARCHAR(32)                                     COMMENT 'corp code'
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT 'corporation';
 
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   `id`  INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE COMMENT 'id',
   `name`        VARCHAR(32) NOT NULL                        COMMENT 'department name',
   `type`      TINYINT(2)                                  COMMENT '部门类型 研发 财务 生产 市场……',
-  `parent`    INT DEFAULT 0                                 COMMENT '上级部门',
+  `parent`    INT UNSIGNED DEFAULT 0                                 COMMENT '上级部门',
   `corporation` INT UNSIGNED                                COMMENT '所属公司',
   #FOREIGN KEY (`parent`) REFERENCES `department`(`id`),
   CONSTRAINT `fk_depart_corp` FOREIGN KEY (`corporation`) REFERENCES `corporation`(`id`)
@@ -74,10 +74,7 @@ CREATE TABLE IF NOT EXISTS `corporation_staff` (
   `department`  INT UNSIGNED COMMENT '人员所属部门',
   PRIMARY KEY (`corporation`, `user`)
     COMMENT '联合主键'
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COMMENT '企业人员';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COMMENT '企业人员';
 
 ########################################################################################################################
 ## 项目相关
@@ -230,5 +227,7 @@ CREATE TABLE IF NOT EXISTS `task_handler_type` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COMMENT '任务处置人类型';
+
+
 
 

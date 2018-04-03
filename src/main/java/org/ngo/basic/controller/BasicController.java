@@ -1,16 +1,16 @@
 package org.ngo.basic.controller;
 
-import org.ngo.basic.model.ResultVO;
+import org.ngo.basic.model.ResultDTO;
 
 public abstract class BasicController {
 
-    protected ResultVO result;
+    protected ResultDTO result;
 
-    public ResultVO getResult() {
+    public ResultDTO getResult() {
         return result;
     }
 
-    public void setResult(ResultVO result) {
+    public void setResult(ResultDTO result) {
         this.result = result;
     }
 }

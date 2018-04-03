@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ngo.user.dao.UserProfileDao">
+    
+    <resultMap id="UserProfileMap" type="org.ngo.user.model.UserProfile">
+        <id column="id" property="id" javaType="INTEGER"/>
+        <result column="gender" property="gender" javaType="BOOLEAN" />
+        <result column="avatar" property="avatar" javaType="STRING" />
+        <result column="birthday" property="birthday" javaType="DATE" />
+        <result column="home_address" property="homeAddress" javaType="STRING" />
+        <result column="city" property="city" javaType="INTEGER" />
+        <result column="corp_address" property="corpAddress" javaType="STRING" />
+        <result column="create_time" property="createTime" javaType="DATE" />
+        <result column="comment" property="comment" javaType="STRING" />
+    </resultMap>
+
+    <sql id="UserProfile_Column">
+        `id`,`gender`,`avatar`,`birthday`,`home_address`,`city`,`corp_address`,`create_time`,`comment`
+    </sql>
+
+    <sql id="UserProfile_Property">
+        #{id,jdbcType=INTEGER},
+        #{gender, jdbcType=TINYINT},
+        #{avatar, jdbcType=VARCHAR},
+        #{birthday,jdbcType=DATE},
+        #{homeAddress, jdbcType=VARCHAR},
+        #{city, jdbcType=INTEGER},
+        #{corpAddress, jdbcType=VARCHAR},
+        #{createTime, jdbcType=TIMESTAMP},
+        #{comment, jdbcType=VARCHAR}
+    </sql>
+    <sql id="Checked_UserProfile_Property">
+        <if test="id!=null">#{id,jdbcType=INTEGER},</if>
+        <if test="gender!=null">#{gender, jdbcType=TINYINT},</if>
+        <if test="avatar!=null">#{avatar, jdbcType=VARCHAR},</if>
+        <if test="birthday!=null">#{birthday,jdbcType=DATE},</if>
+        <if test="homeAddress!=null">#{homeAddress, jdbcType=VARCHAR},</if>
+        <if test="city!=null">#{city, jdbcType=INTEGER},</if>
+        <if test="corpAddress!=null">#{corpAddress, jdbcType=VARCHAR},</if>
+        <if test="createTime!=null">#{createTime, jdbcType=TIMESTAMP},</if>
+        <if test="comment!=null">#{comment, jdbcType=VARCHAR}</if>
+    </sql>
+
+    <sql id="Checked_UserProfile_Assignment">
+        <if test="gender!=null">gender = #{gender, jdbcType=TINYINT},</if>
+        <if test="avatar!=null">avatar = #{avatar, jdbcType=VARCHAR},</if>
+        <if test="birthday!=null">birthday = #{birthday,jdbcType=DATE},</if>
+        <if test="homeAddress!=null">home_address = #{homeAddress, jdbcType=VARCHAR},</if>
+        <if test="city!=null">city = #{city, jdbcType=INTEGER},</if>
+        <if test="corpAddress!=null">corp_address = #{corpAddress, jdbcType=VARCHAR},</if>
+        <if test="createTime!=null">create_time = #{createTime, jdbcType=TIMESTAMP},</if>
+        <if test="comment!=null">comment = #{comment, jdbcType=VARCHAR}</if>
+    </sql>
+
+    <select id="getById" resultMap="UserProfileMap" parameterType="int" >
+        select <include refid="UserProfile_Column"/> from user_profile where id=#{id}
+    </select>
+
+    <select id="listByIdArray" resultMap="UserProfileMap" >
+        select <include refid="UserProfile_Column" />
+        from user_profile
+        <where>
+            id in
+            <foreach collection="array" open="(" close=")" separator="," item="item" >
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="listByIdList" resultMap="UserProfileMap" >
+        select <include refid="UserProfile_Column" />
+        from user_profile
+        <where>
+            id in
+            <foreach collection="list" open="(" close=")" separator="," item="item" >
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="listAll" resultMap="UserProfileMap">
+        select * from user_profile
+    </select>
+
+    <insert id="insertByBean" parameterType="org.ngo.user.model.UserProfile">
+        INSERT INTO user_profile(<include refid="UserProfile_Column"/>)
+        VALUES (
+            <include refid="UserProfile_Property"/>
+        )
+    </insert>
+
+    <insert id="insertByMap" parameterType="map">
+        INSERT INTO user_profile(<include refid="UserProfile_Column" />)
+        VALUES (
+            <include refid="Checked_UserProfile_Property" />
+        )
+    </insert>
+
+    <insert id="insertByBeanList" >
+        INSERT INTO user_profile(<include refid="UserProfile_Column"/>)
+        VALUES
+        <foreach collection="list" open="(" close=")" separator="," item="userProfile">
+            <include refid="UserProfile_Property" />
+        </foreach>
+    </insert>
+
+    <update id="updateByBean" parameterType="org.ngo.user.model.UserProfile">
+        UPDATE user_profile
+        <set>
+            <include refid="Checked_UserProfile_Assignment" />
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

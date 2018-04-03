@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.ngo.basic.BasicTest;
 import org.ngo.user.dao.UserDao;
 import org.ngo.user.model.User;
+import org.ngo.user.model.UserProfile;
 import org.ngo.util.util.RandomUtil;
 import org.ngo.util.util.StringUtil;
 import org.slf4j.Marker;
@@ -64,9 +65,21 @@ public class UserDaoTest extends BasicTest {
     }
 
     @Test
+    @Transactional
     public void testGetUser() {
         User user = userDao.getById(1);
         assert user.getUsername().equals("abc");
+
+        user = userDao.getById(1);
+        user = userDao.getById(1);
+
+        UserProfile profile = user.getUserProfile();
+        assert profile != null;
+        logger.debug(profile.toString());
+
+        user = userDao.getUserByUsernameAndPassword("abc", "123");
+        logger.debug(user.toString());
+
     }
 
     @Test

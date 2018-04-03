@@ -2,7 +2,7 @@ package org.ngo.basic.model;
 
 import java.util.Collection;
 
-public class ResultVO {
+public class ResultDTO {
 
     private Integer count;
     private Object data;
@@ -12,7 +12,7 @@ public class ResultVO {
     private Integer totalCount;
     private Boolean dir;
 
-    public ResultVO(Object result) {
+    public ResultDTO(Object result) {
         this.data = result;
         setCount();
     }

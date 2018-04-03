@@ -3,7 +3,7 @@ package org.ngo.util.util;
 
 import java.util.*;
 
-public final class RandomUtil {
+public final class RandomUtil extends Random {
     protected static final String ALLCHAR
             = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     protected static final String LETTERCHAR

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.ngo.user.dao.UserDao">
+    <cache/>
+
     <resultMap id="UserMap" type="org.ngo.user.model.User">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
@@ -14,102 +16,94 @@
         <result column="weibo" jdbcType="VARCHAR" property="weibo"/>
         <result column="last_login_date" jdbcType="TIMESTAMP" property="lastLoginDate"/>
         <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+        <association property="userProfile" select="org.ngo.user.dao.UserProfileDao.getById"
+                     column="id" javaType="org.ngo.user.model.UserProfile" fetchType="lazy" />
     </resultMap>
+
+    <resultMap id="UserMapWithProfle" type="org.ngo.user.model.User">
+        <association property="userProfile" select="org.ngo.user.dao.UserProfileDao.getById"
+                     column="user_profile" javaType="org.ngo.user.model.UserProfile" />
+    </resultMap>
+
     <sql id="User_Column">
         `id`, `username`, `usercode`, `realname`, `nickname`, `password`, `mobile`, `email`, `wechat`, `weibo`,
         `last_login_date`, `last_login_ip`
     </sql>
 
+    <sql id="Checked_User_Column">
+        <if test="id != null">id,</if>
+        <if test="username != null">username,</if>
+        <if test="usercode != null">usercode,</if>
+        <if test="realname != null">realname,</if>
+        <if test="nickname != null">nickname,</if>
+        <if test="password != null">password,</if>
+        <if test="mobile != null">mobile,</if>
+        <if test="email != null">email,</if>
+        <if test="wechat != null">wechat,</if>
+        <if test="weibo != null">weibo,</if>
+        <if test="lastLoginDate != null">last_login_date,</if>
+        <if test="lastLoginIp != null">last_login_ip,</if>
+    </sql>
+
+    <sql id="User_Property">
+        #{id,jdbcType=INTEGER},
+        #{username,jdbcType=VARCHAR},
+        #{usercode,jdbcType=VARCHAR},
+        #{realname,jdbcType=VARCHAR},
+        #{nickname,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{wechat,jdbcType=VARCHAR},
+        #{weibo,jdbcType=VARCHAR},
+        #{lastLoginDate,jdbcType=TIMESTAMP},
+        #{lastLoginIp,jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="Checked_User_Property">
+        <if test="id != null">#{id,jdbcType=INTEGER},</if>
+        <if test="username != null">#{username,jdbcType=VARCHAR},</if>
+        <if test="usercode != null">#{usercode,jdbcType=VARCHAR},</if>
+        <if test="realname != null">#{realname,jdbcType=VARCHAR},</if>
+        <if test="nickname != null">#{nickname,jdbcType=VARCHAR},</if>
+        <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+        <if test="mobile != null">#{mobile,jdbcType=VARCHAR},</if>
+        <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+        <if test="wechat != null">#{wechat,jdbcType=VARCHAR},</if>
+        <if test="weibo != null">#{weibo,jdbcType=VARCHAR},</if>
+        <if test="lastLoginDate != null">#{lastLoginDate,jdbcType=TIMESTAMP},</if>
+        <if test="lastLoginIp != null">#{lastLoginIp,jdbcType=VARCHAR},</if>
+    </sql>
+
+    <sql id="Checked_User_Assignment">
+        <if test="username!=null">username = #{username,jdbcType=VARCHAR},</if>
+        <if test="usercode!=null">usercode = #{usercode,jdbcType=VARCHAR},</if>
+        <if test="realname!=null">realname = #{realname,jdbcType=VARCHAR},</if>
+        <if test="nickname!=null">nickname = #{nickname,jdbcType=VARCHAR},</if>
+        <if test="password!=null">password = #{password,jdbcType=VARCHAR},</if>
+        <if test="mobile!=null">mobile = #{mobile,jdbcType=VARCHAR},</if>
+        <if test="email!=null">email = #{email,jdbcType=VARCHAR},</if>
+        <if test="wechat!=null">wechat = #{wechat,jdbcType=VARCHAR},</if>
+        <if test="weibo!=null">weibo = #{weibo,jdbcType=VARCHAR},</if>
+        <if test="last_login_date!=null">last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},</if>
+        <if test="last_login_ip!=null">last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}</if>
+    </sql>
+
     <insert id="insertByBean" useGeneratedKeys="true" keyProperty="id" parameterType="org.ngo.user.model.User">
         INSERT INTO user (
         <include refid="User_Column"/>
-        ) VALUES (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{usercode,jdbcType=VARCHAR},
-        #{realname,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
-        #{password,jdbcType=VARCHAR},
-        #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-        #{wechat,jdbcType=VARCHAR},
-        #{weibo,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP},
-        #{lastLoginIp,jdbcType=VARCHAR}
+        ) VALUES (
+        <include refid="User_Property"/>
         )
     </insert>
 
     <insert id="insertByMap" parameterType="map">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="username != null">
-                username,
-            </if>
-            <if test="usercode != null">
-                usercode,
-            </if>
-            <if test="realname != null">
-                realname,
-            </if>
-            <if test="nickname != null">
-                nickname,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="mobile != null">
-                mobile,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="wechat != null">
-                wechat,
-            </if>
-            <if test="weibo != null">
-                weibo,
-            </if>
-            <if test="lastLoginDate != null">
-                last_login_date,
-            </if>
-            <if test="lastLoginIp != null">
-                last_login_ip,
-            </if>
+          <include refid="Checked_User_Column" />
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="usercode != null">
-                #{usercode,jdbcType=VARCHAR},
-            </if>
-            <if test="realname != null">
-                #{realname,jdbcType=VARCHAR},
-            </if>
-            <if test="nickname != null">
-                #{nickname,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null">
-                #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="wechat != null">
-                #{wechat,jdbcType=VARCHAR},
-            </if>
-            <if test="weibo != null">
-                #{weibo,jdbcType=VARCHAR},
-            </if>
-            <if test="lastLoginDate != null">
-                #{lastLoginDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastLoginIp != null">
-                #{lastLoginIp,jdbcType=VARCHAR},
-            </if>
+            <include refid="Checked_User_Property" />
         </trim>
     </insert>
 
@@ -118,13 +112,9 @@
         <include refid="User_Column"/>
         ) VALUES
         <foreach item="item" collection="list" separator=",">
-            (#{item.id,jdbcType=INTEGER}, #{item.username,jdbcType=VARCHAR}, #{item.usercode,jdbcType=VARCHAR},
-            #{item.realname,jdbcType=VARCHAR}, #{item.nickname,jdbcType=VARCHAR},
-            #{item.password,jdbcType=VARCHAR},
-            #{item.mobile,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR},
-            #{item.wechat,jdbcType=VARCHAR},
-            #{item.weibo,jdbcType=VARCHAR}, #{item.lastLoginDate,jdbcType=TIMESTAMP},
-            #{item.lastLoginIp,jdbcType=VARCHAR})
+            (
+            <include refid="User_Property" />
+            )
         </foreach>
     </insert>
 
@@ -154,45 +144,50 @@
 
     <update id="updateByBean" parameterType="org.ngo.user.model.User">
         UPDATE user
-        SET username      = #{username,jdbcType=VARCHAR},
-            usercode      = #{usercode,jdbcType=VARCHAR},
-            realname      = #{realname,jdbcType=VARCHAR},
-            nickname      = #{nickname,jdbcType=VARCHAR},
-            password      = #{password,jdbcType=VARCHAR},
-            mobile        = #{mobile,jdbcType=VARCHAR},
-            email         = #{email,jdbcType=VARCHAR},
-            wechat        = #{wechat,jdbcType=VARCHAR},
-            weibo         = #{weibo,jdbcType=VARCHAR},
-        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
-            last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}
+        <set>
+            <include refid="Checked_User_Assignment" />
+        </set>
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
 
-    <update id="updateByCondition" parameterType="Map">
+    <update id="updateByMap" parameterType="Map">
         UPDATE user
-        SET username = #{username,jdbcType=VARCHAR},
-        usercode = #{usercode,jdbcType=VARCHAR},
-        realname = #{realname,jdbcType=VARCHAR},
-        nickname = #{nickname,jdbcType=VARCHAR},
-        password = #{password,jdbcType=VARCHAR},
-        mobile = #{mobile,jdbcType=VARCHAR},
-        email = #{email,jdbcType=VARCHAR},
-        wechat = #{wechat,jdbcType=VARCHAR},
-        weibo = #{weibo,jdbcType=VARCHAR},
-        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
-        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR}
+        <set>
+            <include refid="Checked_User_Assignment" />
+        </set>
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
 
     <select id="listAll" resultMap="UserMap">
-        SELECT *
-        FROM user;
+        SELECT * FROM user;
     </select>
 
-    <select id="getById" parameterType="java.lang.Integer" resultMap="UserMap">
+    <select id="getById" parameterType="java.lang.Integer" resultMap="UserMap" >
         select
         <include refid="User_Column"/>
         from user
         where `id` = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByIdArray" resultMap="UserMap">
+        SELECT <include refid="User_Column" />
+        FROM user
+        <where>
+            id in
+            <foreach collection="array" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="listByIdList" resultMap="UserMap" >
+        SELECT <include refid="User_Column" />
+        FROM user
+        <where>
+            id in
+            <foreach collection="list" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </where>
     </select>
 </mapper>

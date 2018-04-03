@@ -45,6 +45,11 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     }
 
     @Override
+    public int delete(Collection<PK> ids) {
+        return baseDao.deleteByIdList(ids);
+    }
+
+    @Override
     public int delete(List<T> ts) {
         return baseDao.deleteByBeanList(ts);
     }
@@ -82,11 +87,6 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     @Override
     public Collection<T> list() {
         return baseDao.listAll();
-    }
-
-    @Override
-    public Collection<T> list(Map<String, Object> map) {
-        return baseDao.listByCondition(map);
     }
 
     @Override

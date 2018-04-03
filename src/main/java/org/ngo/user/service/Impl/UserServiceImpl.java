@@ -1,8 +1,8 @@
 package org.ngo.user.service.Impl;
 
 import org.ngo.basic.service.BaseServiceImpl;
-import org.ngo.user.dao.IUserProfileDao;
 import org.ngo.user.dao.UserDao;
+import org.ngo.user.dao.UserProfileDao;
 import org.ngo.user.model.User;
 import org.ngo.user.model.UserProfile;
 import org.ngo.user.service.UserService;
@@ -20,16 +20,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
     @Resource
     private UserDao userDao;
     @Resource
-    private IUserProfileDao userProfileDao;
+    private UserProfileDao userProfileDao;
 
     @Override
-    public String userLogin(String uniqueName, String password){
-        logger.info("{} login",uniqueName);
-        if (logger.isDebugEnabled()) {
-
+    public Boolean userLogin(String uniqueName, String password){
+        User user = userDao.getUserByUsernameAndPassword(uniqueName, password);
+        if (user != null) {
+            return true;
         }
-        return "";
+        return false;
     }
+
     @Override
     public String userLogout(Integer userId) {
         logger.info("{} logout", userId);

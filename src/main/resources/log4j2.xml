@@ -3,7 +3,7 @@
 <configuration status="error">
 
     <Properties>
-        <property name="logPath">logs</property>
+        <property name="logPath">C:/Users/suntri/Projects/ngo/logs</property>
         <property name="logFullPattern">%d{HH:mm:ss.SSS} [%t][%marker][%fqcn] %-5level %class{36} %L %M - %msg%xEx%n
         </property>
         <property name="logPattern">%d{HH:mm:ss.SSS} [%t] %-5level %class{36} %L %M - %msg%xEx%n</property>
@@ -49,7 +49,7 @@
             <!--<appender-ref ref="RollingFile"/>-->
             <appender-ref ref="Console"/>
             <!--<appender-ref ref="ERROR" />-->
-            <!--<appender-ref ref="log"/>-->
+            <appender-ref ref="log"/>
         </root>
 
         <!-- 3rdparty Loggers -->

@@ -1,8 +1,9 @@
 package org.ngo.user.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserProfile {
+public class UserProfile implements Serializable {
 
     private Integer id;
     private Boolean gender;
@@ -13,6 +14,9 @@ public class UserProfile {
     private String corpAddress;
     private Date createTime;
     private String comment;
+
+    public UserProfile() {
+    }
 
     public UserProfile(Integer id) {
         this.id = id;
@@ -100,5 +104,20 @@ public class UserProfile {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "id=" + id +
+                ", gender=" + gender +
+                ", avatar='" + avatar + '\'' +
+                ", birthday=" + birthday +
+                ", homeAddress='" + homeAddress + '\'' +
+                ", city=" + city +
+                ", corpAddress='" + corpAddress + '\'' +
+                ", createTime=" + createTime +
+                ", comment='" + comment + '\'' +
+                '}';
     }
 }

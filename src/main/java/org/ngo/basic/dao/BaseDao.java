@@ -46,16 +46,15 @@ public interface BaseDao<T, PK extends Serializable> {
      */
     Collection<T> listAll();
 
-    /**
-     * 查询全部，条件查询，分页查询
-     */
-    Collection<T> listByCondition(Map<String, Object> map);
+    Map<PK, T> mapByIdList(Collection<PK> ids);
 
     Integer deleteByBean(T t);
 
     Integer deleteById(@Param("id") PK id);
 
     Integer deleteByIdArray(PK[] ids);
+
+    Integer deleteByIdList(Collection<PK> ids);
 
     Integer deleteByBeanList(Collection<T> ts);
 
@@ -89,4 +88,8 @@ public interface BaseDao<T, PK extends Serializable> {
     Integer updateBySql(String sql);
 
     Integer deleteBySql(String sql);
+
+    void clearCache();
+
+    void closeSession();
 }

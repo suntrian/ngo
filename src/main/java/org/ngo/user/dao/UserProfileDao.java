@@ -5,5 +5,5 @@ import org.ngo.user.model.UserProfile;
 import org.springframework.stereotype.Repository;
 
 @Repository("userProfileDao")
-public interface IUserProfileDao extends BaseDao<UserProfile, Integer> {
+public interface UserProfileDao extends BaseDao<UserProfile, Integer> {
 }
