@@ -99,8 +99,8 @@
     <insert id="insertByBeanList" >
         INSERT INTO user_profile(<include refid="UserProfile_Column"/>)
         VALUES
-        <foreach collection="list" open="(" close=")" separator="," item="userProfile">
-            <include refid="UserProfile_Property" />
+        <foreach collection="list" separator="," item="userProfile">
+            (<include refid="UserProfile_Property" />)
         </foreach>
     </insert>
 

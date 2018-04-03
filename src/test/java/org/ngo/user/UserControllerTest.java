@@ -1,9 +1,8 @@
 package org.ngo.user;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.ngo.basic.BasicTest;
+import org.ngo.basic.BaseTest;
 import org.ngo.user.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,7 +11,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class UserControllerTest extends BasicTest {
+public class UserControllerTest extends BaseTest {
 
     @Autowired
     private UserController userController;

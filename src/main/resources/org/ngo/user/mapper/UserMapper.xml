@@ -158,18 +158,28 @@
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
 
-    <select id="listAll" resultMap="UserMap">
-        SELECT * FROM user;
+    <update id="updateByBeanList" >
+        <foreach collection="list" separator=";" item="user" >
+            UPDATE user
+            <set>
+                <include refid="Checked_User_Assignment" />
+            </set>
+            WHERE id = #{id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <select id="selectAll" resultMap="UserMap">
+        SELECT <include refid="User_Column" /> FROM user;
     </select>
 
-    <select id="getById" parameterType="java.lang.Integer" resultMap="UserMap" >
+    <select id="selectOneById" parameterType="java.lang.Integer" resultMap="UserMap" >
         select
         <include refid="User_Column"/>
         from user
         where `id` = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="listByIdArray" resultMap="UserMap">
+    <select id="selectListByIdArray" resultMap="UserMap">
         SELECT <include refid="User_Column" />
         FROM user
         <where>
@@ -180,7 +190,7 @@
         </where>
     </select>
 
-    <select id="listByIdList" resultMap="UserMap" >
+    <select id="selectListByIdList" resultMap="UserMap" >
         SELECT <include refid="User_Column" />
         FROM user
         <where>

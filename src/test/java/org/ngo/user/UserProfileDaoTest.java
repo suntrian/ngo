@@ -1,7 +1,7 @@
 package org.ngo.user;
 
 import org.junit.Test;
-import org.ngo.basic.BasicTest;
+import org.ngo.basic.BaseTest;
 import org.ngo.user.dao.UserDao;
 import org.ngo.user.dao.UserProfileDao;
 import org.ngo.user.model.User;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
-public class UserProfileDaoTest extends BasicTest {
+public class UserProfileDaoTest extends BaseTest {
 
     @Autowired
     private UserDao userDao;
@@ -29,7 +29,7 @@ public class UserProfileDaoTest extends BasicTest {
 
     @Test
     public void testAddUserProfile(){
-        List<User> users = (List<User>) userDao.listAll();
+        List<User> users = (List<User>) userDao.selectAll();
         UserProfile profile = new UserProfile();
         for (User user: users){
             profile.setId(user.getId());
@@ -43,7 +43,7 @@ public class UserProfileDaoTest extends BasicTest {
     @Test
     @Transactional
     public void testUpdateUserProfile() throws Exception{
-        List<UserProfile> profiles = (List<UserProfile>) profileDao.listAll();
+        List<UserProfile> profiles = (List<UserProfile>) profileDao.selectAll();
         for (UserProfile profile: profiles){
             profile.setCreateTime(new Date());
             profile.setBirthday(DateUtil.date("1989-04-10"));

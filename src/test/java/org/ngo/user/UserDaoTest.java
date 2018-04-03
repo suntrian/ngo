@@ -3,7 +3,7 @@ package org.ngo.user;
 import com.google.common.base.Strings;
 import org.junit.Before;
 import org.junit.Test;
-import org.ngo.basic.BasicTest;
+import org.ngo.basic.BaseTest;
 import org.ngo.user.dao.UserDao;
 import org.ngo.user.model.User;
 import org.ngo.user.model.UserProfile;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserDaoTest extends BasicTest {
+public class UserDaoTest extends BaseTest {
 
 
     Marker event = MarkerFactory.getMarker(UserDaoTest.class.getName());
@@ -67,11 +67,11 @@ public class UserDaoTest extends BasicTest {
     @Test
     @Transactional
     public void testGetUser() {
-        User user = userDao.getById(1);
+        User user = userDao.selectOneById(1);
         assert user.getUsername().equals("abc");
-
-        user = userDao.getById(1);
-        user = userDao.getById(1);
+        logger.debug(user.getUsername());
+        user = userDao.selectOneById(1);
+        user = userDao.selectOneById(1);
 
         UserProfile profile = user.getUserProfile();
         assert profile != null;
@@ -84,7 +84,7 @@ public class UserDaoTest extends BasicTest {
 
     @Test
     public void testListUsers() {
-        List<User> users = (List<User>) userDao.listAll();
+        List<User> users = (List<User>) userDao.selectAll();
         Assert.notEmpty(users, "table user is empty or query Users failed");
     }
 
@@ -107,11 +107,11 @@ public class UserDaoTest extends BasicTest {
 
     @Test
     public void testExecSql() {
-        Map user = userDao.queryOneBySql("select * from user where id = 1");
+        Map user = userDao.selectOneBySql("select * from user where id = 1");
         //assert  (Integer)user.get("id") == 1;
         logger.debug(user.toString());
 
-        List<Map> map = userDao.queryListBySql("select * from user");
+        List<Map> map = userDao.selectListBySql("select * from user");
         logger.debug(map.toString());
     }
 

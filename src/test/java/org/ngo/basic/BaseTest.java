@@ -12,7 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = {"classpath:spring.xml", "classpath:spring-mybatis.xml"})
-public abstract class BasicTest {
+public abstract class BaseTest {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test

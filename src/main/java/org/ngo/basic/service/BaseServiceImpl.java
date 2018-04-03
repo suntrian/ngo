@@ -71,22 +71,22 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 
     @Override
     public T get(PK id) {
-        return (T) baseDao.getById(id);
+        return (T) baseDao.selectOneById(id);
     }
 
     @Override
     public Collection<T> list(PK[] ids) {
-        return baseDao.listByIdArray(ids);
+        return baseDao.selectListByIdArray(ids);
     }
 
     @Override
     public Collection<T> list(Collection<PK> ids) {
-        return baseDao.listByIdList(ids);
+        return baseDao.selectListByIdList(ids);
     }
 
     @Override
     public Collection<T> list() {
-        return baseDao.listAll();
+        return baseDao.selectAll();
     }
 
     @Override

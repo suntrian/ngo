@@ -24,29 +24,17 @@ public interface BaseDao<T, PK extends Serializable> {
      **/
     Integer insertByMap(Map<String, Object> map);
 
-    /**
-     * 批量插入
-     *
-     * @param ts
-     * @return
-     */
     Integer insertByBeanList(List<T> ts);
 
-    /**
-     * 查询（根据主键ID查询）
-     **/
-    T getById(@Param("id") PK id);
+    T selectOneById(@Param("id") PK id);
 
-    Collection<T> listByIdArray(PK[] ids);
+    Collection<T> selectListByIdArray(PK[] ids);
 
-    Collection<T> listByIdList(Collection<PK> ids);
+    Collection<T> selectListByIdList(Collection<PK> ids);
 
-    /**
-     * 查询全部
-     */
-    Collection<T> listAll();
+    Collection<T> selectAll();
 
-    Map<PK, T> mapByIdList(Collection<PK> ids);
+    Map<PK, T> selectMapByIdList(Collection<PK> ids);
 
     Integer deleteByBean(T t);
 
@@ -64,24 +52,11 @@ public interface BaseDao<T, PK extends Serializable> {
 
     Integer updateByBeanList(Collection<T> ts);
 
-    /**
-     * 所有结果数
-     *
-     * @return
-     */
     Integer countAll();
 
-    /**
-     * 条件查询数目
-     *
-     * @param map
-     * @return
-     */
-    Integer countByCondition(Map<String, Object> map);
+    Map selectOneBySql(String sql);
 
-    Map queryOneBySql(String sql);
-
-    List<Map> queryListBySql(String sql);
+    List<Map> selectListBySql(String sql);
 
     Integer insertBySql(String sql);
 

@@ -40,7 +40,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
 
     @Override
     public UserProfile getProfile(Integer id) {
-        return userProfileDao.getById(id);
+        return userProfileDao.selectOneById(id);
     }
 
     @Override
