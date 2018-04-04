@@ -54,6 +54,8 @@ public interface BaseDao<T, PK extends Serializable> {
 
     Integer countAll();
 
+    Map<PK, T> selectMapByIdList(Collection<PK> ids, String mapKey);
+
     Map selectOneBySql(String sql);
 
     List<Map> selectListBySql(String sql);

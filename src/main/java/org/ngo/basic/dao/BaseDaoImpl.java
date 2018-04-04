@@ -192,8 +192,13 @@ public abstract class BaseDaoImpl<T, PK extends Serializable> extends SqlSession
 
     @Override
     public Map<PK, T> selectMapByIdList(Collection<PK> ids){
+        return selectMapByIdList(ids,"id");
+    }
+
+    @Override
+    public Map<PK, T> selectMapByIdList(Collection<PK> ids, String mapKey){
         try {
-            return getSqlSession().selectMap(getNamespace() + SELECT_LIST_BY_IDLIST, "id");
+            return getSqlSession().selectMap(getNamespace() + SELECT_LIST_BY_IDLIST, mapKey);
         } catch (Exception e) {
             throw new RuntimeException("select map failed");
         }

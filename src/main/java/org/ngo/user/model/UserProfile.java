@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class UserProfile implements Serializable {
 
+    private static final long serialVersionUID = -2027303597878906636L;
     private Integer id;
     private Boolean gender;
     private String avatar;

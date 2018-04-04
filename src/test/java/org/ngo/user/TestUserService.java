@@ -1,7 +1,7 @@
 package org.ngo.user;
 
 import org.junit.Test;
-import org.ngo.basic.BaseTest;
+import org.ngo.basic.TestBase;
 import org.ngo.user.model.User;
 import org.ngo.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserServiceTest extends BaseTest {
+public class TestUserService extends TestBase {
 
     @Autowired
     private UserService userService;

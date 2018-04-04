@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ngo.corporation.dao.DepartmentDao">
+    <cache/>
+
+    <!---###########-Result Map Section #################################################################################-->
+
+    <resultMap id="Department_Map" type="org.ngo.corporation.model.Department">
+        <id property="id" column="id" javaType="int" />
+        <result property="name" column="name" javaType="string" />
+        <result property="type" column="type" javaType="int" />
+        <result property="corporation" column="corporation" javaType="int" />
+        <result property="parent" column="parent" javaType="int" />
+        <association property="parentDepart" column="parent" select="selectOneById" fetchType="lazy"  />
+        <collection property="childrenDepart" column="id" javaType="ArrayList" select="selectChildren" fetchType="lazy" />
+    </resultMap>
+<!---###########-Column And Property Defination #################################################################################-->
+    <sql id="Department_Column" >
+        `id`,`name`,`type`,`corporation`,`parent`
+    </sql>
+    <sql id="Department_Property">
+        #{id,jdbcType=INTEGER},
+        #{name,jdbcType=VARCHAR},
+        #{type,jdbcType=INTEGER},
+        #{corporation,jdbcType=INTEGER},
+        #{parent,jdbcType=INTEGER}
+    </sql>
+
+    <sql id="DepartmentItem_Property">
+        #{item.id,jdbcType=INTEGER},
+        #{item.name,jdbcType=VARCHAR},
+        #{item.type,jdbcType=INTEGER},
+        #{item.corporation,jdbcType=INTEGER},
+        #{item.parent,jdbcType=INTEGER}
+    </sql>
+
+    <sql id="Checked_Depart_Column" >
+        <if test="id!=null">id,</if>
+        <if test="name!=null">name,</if>
+        <if test="type!=null">type,</if>
+        <if test="corporation!=null">corporation,</if>
+        <if test="parent!=null">parent</if>
+    </sql>
+
+    <sql id="Checked_Depart_Property" >
+        <if test="id!=null">#{id,jdbcType=INTEGER},</if>
+        <if test="name!=null">#{name,jdbcType=VARCHAR},</if>
+        <if test="type!=null">#{type,jdbcType=INTEGER},</if>
+        <if test="corporation!=null">#{corporation,jdbcType=INTEGER},</if>
+        <if test="parent!=null">#{parent,jdbcType=INTEGER}</if>
+    </sql>
+
+    <sql id="Checked_Depart_Assignment" >
+        <if test="id!=null">id = #{id,jdbcType=INTEGER},</if>
+        <if test="name!=null">name = #{name,jdbcType=VARCHAR},</if>
+        <if test="type!=null">type = #{type,jdbcType=INTEGER},</if>
+        <if test="corporation!=null">corporation = #{corporation,jdbcType=INTEGER},</if>
+        <if test="parent!=null">parent = #{parent,jdbcType=INTEGER}</if>
+    </sql>
+
+    <!---###########-Select Section #################################################################################-->
+
+
+    <select id="selectOneById" resultMap="Department_Map" parameterType="int">
+        SELECT <include refid="Department_Column" /> FROM department WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="Department_Map">
+        SELECT <include refid="Department_Column" /> FROM department;
+    </select>
+
+    <select id="selectChildren" parameterType="int" resultMap="Department_Map">
+        SELECT <include refid="Department_Column" /> FROM department WHERE parent = #{parent}
+    </select>
+
+    <!---###########-Insert Section #################################################################################-->
+
+
+    <insert id="insertByBean" parameterType="org.ngo.corporation.model.Department" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO department (<include refid="Department_Column" />) VALUES (<include refid="Department_Property" />)
+    </insert>
+
+</mapper>

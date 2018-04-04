@@ -94,8 +94,4 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
         return baseDao.countAll();
     }
 
-    @Override
-    public int count(Map<String, Object> map) {
-        return baseDao.countByCondition(map);
-    }
 }

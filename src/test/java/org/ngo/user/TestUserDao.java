@@ -3,7 +3,7 @@ package org.ngo.user;
 import com.google.common.base.Strings;
 import org.junit.Before;
 import org.junit.Test;
-import org.ngo.basic.BaseTest;
+import org.ngo.basic.TestBase;
 import org.ngo.user.dao.UserDao;
 import org.ngo.user.model.User;
 import org.ngo.user.model.UserProfile;
@@ -20,10 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserDaoTest extends BaseTest {
+public class TestUserDao extends TestBase {
 
 
-    Marker event = MarkerFactory.getMarker(UserDaoTest.class.getName());
+    Marker event = MarkerFactory.getMarker(TestUserDao.class.getName());
 
     @Autowired
     private UserDao userDao;
@@ -43,21 +43,22 @@ public class UserDaoTest extends BaseTest {
     @Transactional
     public void testAddUser() {
 
-        User user = new User(RandomUtil.String(5), RandomUtil.String(5));
-        int c = userDao.insertByBean(user);
-        logger.debug("inserted {}, UserId {}", c, user.getId());
-        assert c == 1;
+        User user = new User(RandomUtil.nextString(5), RandomUtil.nextString(5));
+        int c;
+        // c = userDao.insertByBean(user);
+        //logger.debug("inserted {}, UserId {}", c, user.getId());
+        //assert c == 1;
 
         Map<String, Object> userMap = new HashMap<>();
-        userMap.put("username", RandomUtil.String(5));
-        userMap.put("password", RandomUtil.String(5));
+        userMap.put("username", RandomUtil.nextString(5));
+        userMap.put("password", RandomUtil.nextString(5));
         c = userDao.insertByMap(userMap);
         logger.debug("inserted by Map {}", c);
         assert c == 1;
 
         List<User> userList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            userList.add(new User(RandomUtil.String(5), RandomUtil.String(5)));
+            userList.add(new User(RandomUtil.nextString(5), RandomUtil.nextString(5)));
         }
         c = userDao.insertByBeanList(userList);
         assert c == 3;

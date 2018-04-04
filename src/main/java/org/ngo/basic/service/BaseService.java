@@ -40,5 +40,4 @@ public interface BaseService<T, PK extends Serializable> {
 
     int count();
 
-    int count(Map<String, Object> map);
 }

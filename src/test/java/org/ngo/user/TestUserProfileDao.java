@@ -1,7 +1,7 @@
 package org.ngo.user;
 
 import org.junit.Test;
-import org.ngo.basic.BaseTest;
+import org.ngo.basic.TestBase;
 import org.ngo.user.dao.UserDao;
 import org.ngo.user.dao.UserProfileDao;
 import org.ngo.user.model.User;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
-public class UserProfileDaoTest extends BaseTest {
+public class TestUserProfileDao extends TestBase {
 
     @Autowired
     private UserDao userDao;
@@ -34,7 +34,7 @@ public class UserProfileDaoTest extends BaseTest {
         for (User user: users){
             profile.setId(user.getId());
             profile.setCity(new RandomUtil().nextInt(100));
-            profile.setComment(RandomUtil.String(66));
+            profile.setComment(RandomUtil.nextString(66));
 
             profileDao.insertByBean(profile);
         }

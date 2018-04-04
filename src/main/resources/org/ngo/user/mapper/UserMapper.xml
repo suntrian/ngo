@@ -60,6 +60,21 @@
         #{lastLoginIp,jdbcType=VARCHAR}
     </sql>
 
+    <sql id="UserItem_Property">
+        #{item.id,jdbcType=INTEGER},
+        #{item.username,jdbcType=VARCHAR},
+        #{item.usercode,jdbcType=VARCHAR},
+        #{item.realname,jdbcType=VARCHAR},
+        #{item.nickname,jdbcType=VARCHAR},
+        #{item.password,jdbcType=VARCHAR},
+        #{item.mobile,jdbcType=VARCHAR},
+        #{item.email,jdbcType=VARCHAR},
+        #{item.wechat,jdbcType=VARCHAR},
+        #{item.weibo,jdbcType=VARCHAR},
+        #{item.lastLoginDate,jdbcType=TIMESTAMP},
+        #{item.lastLoginIp,jdbcType=VARCHAR}
+    </sql>
+
     <sql id="Checked_User_Property">
         <if test="id != null">#{id,jdbcType=INTEGER},</if>
         <if test="username != null">#{username,jdbcType=VARCHAR},</if>
@@ -107,13 +122,13 @@
         </trim>
     </insert>
 
-    <insert id="insertByBeanList" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertByBeanList" parameterType="list" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user (
         <include refid="User_Column"/>
         ) VALUES
-        <foreach item="item" collection="list" separator=",">
+        <foreach collection="list" item="item" separator=",">
             (
-            <include refid="User_Property" />
+            <include refid="UserItem_Property" />
             )
         </foreach>
     </insert>

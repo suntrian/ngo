@@ -16,6 +16,55 @@
         id,name,domain,type,address,accountable_person,code
     </sql>
 
+    <sql id="Corp_Property">
+        #{id, jdbcType=INTEGER},
+        #{name, jdbcType=VARCHAR},
+        #{domain, jdbcType=INTEGER},
+        #{type, jdbcType=INTEGER},
+        #{address, jdbcType=VARCHAR},
+        #{accountablePerson, jdbcType=VARCHAR},
+        #{code, jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="CorpItem_Property">
+        #{item.id, jdbcType=INTEGER},
+        #{item.name, jdbcType=VARCHAR},
+        #{item.domain, jdbcType=INTEGER},
+        #{item.type, jdbcType=INTEGER},
+        #{item.address, jdbcType=VARCHAR},
+        #{item.accountablePerson, jdbcType=VARCHAR},
+        #{item.code, jdbcType=VARCHAR}
+    </sql>
+
+    <sql id="Checked_Corp_Property">
+        <if test="id != null">#{id,jdbcType=INTEGER},</if>
+        <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+        <if test="domain != null">#{domain,jdbcType=INTEGER},</if>
+        <if test="type != null">#{type,jdbcType=INTEGER},</if>
+        <if test="address != null">#{address,jdbcType=VARCHAR},</if>
+        <if test="accountablePerson != null">#{accountablePerson,jdbcType=VARCHAR},</if>
+        <if test="code != null">#{code,jdbcType=VARCHAR},</if>
+    </sql>
+    <sql id="Checked_Corp_Column">
+        <if test="id != null">id,</if>
+        <if test="name != null">name,</if>
+        <if test="domain != null">domain,</if>
+        <if test="type != null">type,</if>
+        <if test="address != null">address,</if>
+        <if test="accountablePerson != null">accountable_person,</if>
+        <if test="code != null">code,</if>
+    </sql>
+
+    <sql id="Checked_Corp_Assignment">
+        <if test="id != null">id = #{id,jdbcType=INTEGER},</if>
+        <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+        <if test="domain != null">domain = #{domain,jdbcType=INTEGER},</if>
+        <if test="type != null">type = #{type,jdbcType=INTEGER},</if>
+        <if test="address != null">address = #{address,jdbcType=VARCHAR},</if>
+        <if test="accountablePerson != null">accountable_person = #{accountablePerson,jdbcType=VARCHAR},</if>
+        <if test="code != null">code = #{code,jdbcType=VARCHAR},</if>
+    </sql>
+
     <select id="selectOneById" resultMap="CorpMap" parameterType="int">
         SELECT <include refid="Corp_Column" /> FROM corporation WHERE id = #{id}
     </select>
@@ -61,5 +110,21 @@
             </foreach>
         </where>
     </delete>
+
+    <insert id="insertByBean" parameterType="org.ngo.corporation.model.Corporation" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO corporation (<include refid="Corp_Column" />) VALUES
+        (<include refid="Corp_Property" />)
+    </insert>
+
+    <insert id="insertByMap" parameterType="map" >
+        INSERT INTO corporation (<include refid="Checked_Corp_Column" />) VALUES <include refid="Checked_Corp_Property" />
+    </insert>
+
+    <insert id="insertByBeanList" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO corporation (<include refid="Corp_Column" />) VALUES
+        <foreach collection="list" separator="," item="item">
+            (<include refid="CorpItem_Property" />)
+        </foreach>
+    </insert>
 
 </mapper>

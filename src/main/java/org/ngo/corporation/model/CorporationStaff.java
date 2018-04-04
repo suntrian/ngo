@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class CorporationStaff implements Serializable {
 
+    private static final long serialVersionUID = -8015034392034382181L;
+
     private Integer corporation;
     private Integer person;
     private Integer department;

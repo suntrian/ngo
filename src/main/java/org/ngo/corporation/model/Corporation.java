@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Corporation implements Serializable {
 
+    private static final long serialVersionUID = -3746767321479932730L;
     private Integer id;                 //企业ID
     private String name;                //企业名称
     private Integer domain;             //企业领域

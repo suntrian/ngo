@@ -16,11 +16,11 @@ public final class RandomUtil extends Random {
      * 生成制定范围内的随机数
      *
      * @param scopeMin
-     * @param scoeMax
+     * @param scopeMax
      * @return
      */
-    public static int integer(int scopeMin, int scoeMax) {
-        return (random.nextInt(scoeMax) % (scoeMax - scopeMin + 1) + scopeMin);
+    public static int nextInt(int scopeMin, int scopeMax) {
+        return (random.nextInt(scopeMax) % (scopeMax - scopeMin + 1) + scopeMin);
     }
 
     /**
@@ -43,12 +43,27 @@ public final class RandomUtil extends Random {
      * @param length 随机字符串长度
      * @return 随机字符串
      */
-    public static String String(int length) {
+    public static String nextString(int length) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < length; i++) {
             sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));
         }
         return sb.toString();
+    }
+
+    /**
+     * 返回长度大于minlength 小于maxlength的字符串
+     * @param minLength
+     * @param maxLength
+     * @return
+     */
+    public static String nextString(int minLength, int maxLength) {
+        if (minLength>maxLength){
+            int temp = minLength;
+            minLength = maxLength;
+            maxLength = temp;
+        }
+        return nextString(nextInt(minLength, maxLength));
     }
 
     /**
@@ -135,8 +150,8 @@ public final class RandomUtil extends Random {
     /**
      * 从指定的数组中随机数组中的某个元素
      */
-    public static <T> T randomItem(T[] param) {
-        int index = integer(0, param.length);
+    public static <T> T nextItem(T[] param) {
+        int index = nextInt(0, param.length);
         return param[index];
     }
 
@@ -163,7 +178,7 @@ public final class RandomUtil extends Random {
      * @param <T>
      * @return
      */
-    public static <T> T randomItem(T[] param, double[] percentum) {
+    public static <T> T nextItem(T[] param, double[] percentum) {
         int length = percentum.length;
         Integer[] ints = ArrayUtil.doubleBitCount(percentum);
         int max = Collections.max(Arrays.asList(ints));
@@ -182,7 +197,7 @@ public final class RandomUtil extends Random {
             }
             sum += temp;
         }
-        int indexSum = integer(1, sum);
+        int indexSum = nextInt(1, sum);
         int index = -1;
         for (int i = 0; i < length; i++) {
             int[] scope = (int[]) map.get(i);

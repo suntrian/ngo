@@ -1,6 +1,7 @@
 package org.ngo.basic;
 
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,10 +13,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = {"classpath:spring.xml", "classpath:spring-mybatis.xml"})
-public abstract class BaseTest {
+public abstract class TestBase {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Test
+    @Ignore
     public void testGetNameSpace() {
         logger.debug(this.getClass().getSuperclass().getName());
     }

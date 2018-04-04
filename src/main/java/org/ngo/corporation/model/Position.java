@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Position implements Serializable {
 
+    private static final long serialVersionUID = 435700593241913822L;
     private Integer id;
     private String name;
     private Integer type;
